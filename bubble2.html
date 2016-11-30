@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>D3</title>
+
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto+Slab" rel="stylesheet">
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/main.css" rel="stylesheet">
+	<style>
+		text {
+		  font: 2em;
+		  text-anchor: middle;
+		}
+	</style>
+</head>
+<body>
+
+	<div class="container">
+
+		<div class="header">
+			<h2>Area chart</h2>
+		</div>
+		<header>
+			<h1>Reservatórios do semiárido brasileiro</h1>
+			<p><span id="count">0</span> reservatórios</p>
+		</header>
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2">
+				<div id="chart"></div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- scripts -->
+	<script src="js/d3.v4.min.js"></script>
+	<script>
+		var width = 1000;
+		var svg = d3.select("#chart")
+				.append("svg")
+				.attr('version', '1.1')
+				.attr('viewBox', '0 0 '+width+' '+width)
+				.attr('width', '100%')
+				.attr('class', 'bubble-chart');
+
+		var format = d3.format(",d");
+
+		var color = d3.scaleLinear();
+
+		var pack = d3.pack()
+		    .size([width, width])
+		    .padding(1.5);
+
+		d3.json("reservatorios.json", function(error, classes) {
+		  if (error) throw error;
+
+			// Altera o tipo de dado
+			classes.forEach(function(d) {
+        d.id = +d.id;
+        d.value = +d.capacidade;
+        d.volume_percentual = +d.volume_percentual;
+      });
+
+		  var root = d3.hierarchy({children: classes}).sum(function(d) { return d.value; });
+
+			color
+				.domain([0, d3.max(classes, function(d) { return d.volume_percentual; })])
+				.range(['#C9D4F6', '#4A70E2']);
+
+		  var node = svg.selectAll(".node")
+		    .data(pack(root).leaves())
+		    .enter().append("g")
+		      .attr("class", "node")
+		      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+		  node.append("circle")
+		      .attr("id", function(d) { return d.data.id; })
+		      .attr("r", function(d) { return d.r; })
+		      .style("fill", function(d) { return color(d.data.volume_percentual); });
+
+		  node.append("clipPath")
+		      .attr("id", function(d) { return "clip-" + d.data.id; })
+		    .append("use")
+		      .attr("xlink:href", function(d) { return "#" + d.data.id; });
+
+		  node.append("text")
+		      .attr("clip-path", function(d) { return "url(#clip-" + d.data.id + ")"; })
+		    .selectAll("tspan")
+			    .data(function(d) { console.log(d); return d.data.volume_percentual+"%"; })
+		    .enter().append("tspan")
+		      .text(function(d) { return d; });
+
+			d3.select("#count").text(classes.length);
+		});
+	</script>
+
+</body>
+</html>
