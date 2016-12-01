@@ -11,6 +11,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto+Slab" rel="stylesheet">
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/main.css" rel="stylesheet">
+	<link href="css/fonts.css" rel="stylesheet">
 	<style>
 		text {
 		  font: 10px sans-serif;
@@ -22,8 +23,17 @@
 
 	<div class="container">
 
+		<a href="index.html" class="sidebar-btn"><span class="icon-return"></span> Voltar</a>
+
 		<div class="header">
-			<h2>Area chart</h2>
+			<div class="row">
+				<div class="col-xs-10">
+					<h2>Bubble chart</h2>
+				</div>
+				<div class="col-xs-2 text-right">
+					<a href="https://github.com/jeffersonrpn/d3/blob/master/bubble.html" target="_blank" class="btn btn-link"><span class="icon-code"></span></a>
+				</div>
+			</div>
 		</div>
 		<header>
 			<h1>Reservatórios do semiárido brasileiro</h1>
@@ -34,7 +44,16 @@
 				<div id="chart"></div>
 			</div>
 		</div>
+		<div class="section">
+			<h3>Referências</h3>
+			<ul class="list-unstyled">
+				<li><a href="https://github.com/d3/d3-scale/blob/master/README.md#schemeCategory10" target="_blank">Esquemas de cores <span class="icon-link-external"></span></a></li>
+				<li><a href="https://www.stockjo.com/stocks/colours/" target="_blank">Color pallets <span class="icon-link-external"></span></a></li>
+			</ul>
+		</div>
 	</div>
+
+	<footer></footer>
 
 
 	<!-- scripts -->
@@ -50,7 +69,8 @@
 
 		var format = d3.format(",d");
 
-		var color = d3.scaleOrdinal(d3.schemeCategory20c);
+		// var color = d3.scaleOrdinal(['#1f77b4', '#ff7f0e', '#2ca02c', '#e377c2', '#9467bd', '#8c564b', '#d62728', '#7f7f7f', '#bcbd22', '#17becf']);
+		var color = d3.scaleOrdinal(d3.schemeCategory10);
 
 		var pack = d3.pack()
 		    .size([width, width])
