@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+	<title>D3</title>
+
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto+Slab" rel="stylesheet">
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/main.css" rel="stylesheet">
+	<link href="css/fonts.css" rel="stylesheet">
+	<style>
+		.bar { fill: #f56a6a; }
+	</style>
+</head>
+<body>
+
+	<div class="container">
+
+		<a href="index.html" class="sidebar-btn"><span class="icon-return"></span> Voltar</a>
+
+		<div class="header">
+			<div class="row">
+				<div class="col-xs-10">
+					<h2>Transition</h2>
+				</div>
+				<div class="col-xs-2 text-right">
+					<a href="https://github.com/jeffersonrpn/d3/blob/master/transition.html" target="_blank" class="btn btn-link"><span class="icon-code"></span></a>
+					<a href="https://bl.ocks.org/d3noob/bdf28027e0ce70bd132edc64f1dd7ea4" target="_blank" class="btn btn-link"><span class="icon-link-external"></span></a>
+				</div>
+			</div>
+		</div>
+		<header>
+			<h1>Animated Bar Chart</h1>
+		</header>
+
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<div id="chart"></div>
+			</div>
+		</div>
+
+		<div class="section">
+			<h3>Referências</h3>
+			<ul class="list-unstyled">
+				<li><a href="https://bl.ocks.org/d3noob/bdf28027e0ce70bd132edc64f1dd7ea4" target="_blank">Exemplo base <span class="icon-link-external"></span></a></li>
+				<li><a href="https://github.com/d3/d3/blob/master/API.md#transitions-d3-transition" target="_blank">D3 API Reference: transitions <span class="icon-link-external"></span></a></li>
+			</ul>
+		</div>
+	</div>
+
+	<footer></footer>
+
+	<!-- scripts -->
+	<script src="js/d3.v4.min.js"></script>
+	<script>
+		// set the dimensions and margins of the graph
+		var margin = {top: 20, right: 20, bottom: 30, left: 40},
+		    width = 960 - margin.left - margin.right,
+		    height = 500 - margin.top - margin.bottom;
+
+		// set the ranges
+		var x = d3.scaleBand()
+		          .range([0, width])
+		          .padding(0.1);
+		var y = d3.scaleLinear()
+		          .range([height, 0]);
+
+		var svg = d3.select("#chart")
+				.append("svg")
+				.attr('version', '1.1')
+				.attr('viewBox', '0 0 '+(width + margin.left + margin.right)+' '+(height + margin.top + margin.bottom))
+				.attr('width', '100%')
+				.attr('class', 'bar-chart')
+				.append("g")
+		    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+		// get the data
+		d3.csv("sales.csv", function(error, data) {
+		  if (error) throw error;
+
+		  // format the data
+		  data.forEach(function(d) {
+		    d.sales = +d.sales;
+		  });
+
+		  // Scale the range of the data in the domains
+		  x.domain(data.map(function(d) { return d.salesperson; }));
+		  y.domain([0, d3.max(data, function(d) { return d.sales; })]);
+
+		  // append the rectangles for the bar chart
+		  svg.selectAll(".bar")
+		      .data(data)
+		    .enter().append("rect")
+		      .attr("class", "bar")
+		      .attr("x", function(d) { return x(d.salesperson); })
+		      .attr("width", x.bandwidth())
+		      .attr("y", height)
+					.attr("height", 0);
+
+			svg.selectAll(".bar")
+					.transition().delay(500).duration(2000)
+					.attr("y", function(d) { return y(d.sales); })
+					.attr("height", function(d) { return height - y(d.sales); });
+
+		  // add the x Axis
+		  svg.append("g")
+		      .attr("transform", "translate(0," + height + ")")
+		      .call(d3.axisBottom(x));
+
+		  // add the y Axis
+		  svg.append("g")
+		      .call(d3.axisLeft(y));
+
+		});
+
+		</script>
+
+</body>
+</html>

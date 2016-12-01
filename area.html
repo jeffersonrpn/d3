@@ -75,6 +75,7 @@
 			<h3>Referências</h3>
 			<ul class="list-unstyled">
 				<li><a href="http://bl.ocks.org/mbostock/34f08d5e11952a80609169b7917d4172" target="_blank">Exemplo base <span class="icon-link-external"></span></a></li>
+				<li><a href="https://github.com/d3/d3-shape/blob/master/README.md#areas" target="_blank">D3 API Reference: svg area <span class="icon-link-external"></span></a></li>
 				<li><a href="https://github.com/d3/d3/blob/master/API.md#brushes-d3-brush" target="_blank">D3 API Reference: brush <span class="icon-link-external"></span></a></li>
 			</ul>
 		</div>
@@ -128,6 +129,7 @@
 		    .y1(function(d) { return y(d.volume); });
 
 		var line = d3.line()
+		    // .curve(d3.curveMonotoneX)
 		    .x(function(d) { return x(d.date); })
 		    .y(function(d) { return y(d.volume); });
 
