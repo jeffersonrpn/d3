@@ -60,6 +60,7 @@
 				</div>
 				<div class="col-xs-2 text-right">
 					<a href="https://github.com/jeffersonrpn/d3/blob/master/area.html" target="_blank" class="btn btn-link"><span class="icon-code"></span></a>
+					<a href="http://bl.ocks.org/mbostock/34f08d5e11952a80609169b7917d4172" target="_blank" class="btn btn-link"><span class="icon-link-external"></span></a>
 				</div>
 			</div>
 		</div>
@@ -67,7 +68,16 @@
 			<h1>Açude Epitácio Pessoa (Boqueirão)</h1>
 			<p>Nível do açude nos últimos 26 anos</p>
 		</header>
+
 		<div id="chart"></div>
+
+		<div class="section">
+			<h3>Referências</h3>
+			<ul class="list-unstyled">
+				<li><a href="http://bl.ocks.org/mbostock/34f08d5e11952a80609169b7917d4172" target="_blank">Exemplo base <span class="icon-link-external"></span></a></li>
+				<li><a href="https://github.com/d3/d3/blob/master/API.md#brushes-d3-brush" target="_blank">D3 API Reference: brush <span class="icon-link-external"></span></a></li>
+			</ul>
+		</div>
 	</div>
 
 	<footer></footer>
@@ -194,7 +204,13 @@
 
 		  focus.append("g")
 		      .attr("class", "axis axis--y")
-		      .call(yAxis);
+		      .call(yAxis)
+					.append("text")
+			      .attr("x", 5)
+			      .attr("dy", ".71em")
+			      .style("text-anchor", "start")
+			      .style("fill", "#000")
+			      .text("Volume (%)");
 
 		  context.append("path")
 		      .datum(data)
