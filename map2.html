@@ -13,10 +13,6 @@
 	<link href="css/main.css" rel="stylesheet">
 	<link href="css/fonts.css" rel="stylesheet">
 	<style>
-    .municipio {
-      stroke: #fff;
-      stroke-width: 0.8px;
-    }
 	</style>
 </head>
 <body>
@@ -37,15 +33,15 @@
 			</div>
 		</div>
 		<ol class="breadcrumb">
-			<li class="active">Início</li>
+			<li><a href="map.html">Início</a></li>
 			<li><a href="map1.html">1</a></li>
-			<li><a href="map2.html">2</a></li>
+			<li class="active">2</li>
 			<li><a href="map3.html">3</a></li>
 			<li><a href="map4.html">4</a></li>
 			<li><a href="map5.html">5</a></li>
 		</ol>
 		<header>
-			<h1>População paraibana</h1>
+			<h1>Carregando os dados</h1>
 		</header>
 
 		<div id="chart"></div>
@@ -53,8 +49,6 @@
 		<div class="section">
 			<h3>Referências</h3>
 			<ul class="list-unstyled">
-				<li><a href="https://bl.ocks.org/mbostock/4060606" target="_blank">Exemplo base <span class="icon-link-external"></span></a></li>
-				<li><a href="https://bl.ocks.org/mbostock/3306362" target="_blank">Outro exemplo (limite) <span class="icon-link-external"></span></a></li>
 				<li><a href="https://github.com/d3/d3-geo/blob/master/README.md#azimuthal-projections" target="_blank">Projeções azimutais <span class="icon-link-external"></span></a></li>
 			</ul>
 		</div>
@@ -64,7 +58,6 @@
 
 	<!-- scripts -->
 	<script src="js/d3.v4.min.js"></script>
-	<script src="//d3js.org/d3-color.v1.min.js"></script>
   <script src="//d3js.org/topojson.v1.min.js"></script>
 	<script>
 		var
@@ -78,37 +71,19 @@
 				.attr('width', '100%')
 				.attr('class', 'map-chart');
 
-    var projection = d3.geoAlbers()
-        .center([-36.820037, -7.195265])
-        .rotate([0, 0])
-        .parallels([0, 0])
-        .scale(12000);
+    var projection = d3.geoMercator();
 
     var path = d3.geoPath().projection(projection);
-
-    var color = d3.scaleThreshold();
 
     d3.json("data/topo_pb.json", function(error, pb) {
       if (error) throw error;
 
-			var municipios = topojson.feature(pb, pb.objects.geo_pb);
-
-			color
-      	.domain([5000, 10000, 30000, 50000, 100000])
-        // Purple
-    		.range([d3.rgb(84, 39, 143, 0.2), d3.rgb(84, 39, 143, 0.4), d3.rgb(84, 39, 143, 0.6), d3.rgb(84, 39, 143, 0.8), d3.rgb(84, 39, 143, 1)]);
-				// Orange
-    		// .range([d3.rgb(248, 80, 44, 0.2), d3.rgb(248, 80, 44, 0.4), d3.rgb(248, 80, 44, 0.6), d3.rgb(248, 80, 44, 0.8), d3.rgb(248, 80, 44, 1)]);
-        // Blue
-    		// .range([d3.rgb(8, 48, 107, 0.2), d3.rgb(8, 48, 107, 0.4), d3.rgb(8, 48, 107, 0.6), d3.rgb(8, 48, 107, 0.8), d3.rgb(8, 48, 107, 1)]);
+      var municipios = topojson.feature(pb, pb.objects.geo_pb);
 
       svg.selectAll(".municipio")
         .data(municipios.features)
       .enter().append("path")
-        .attr("class", function(d) { return "municipio " + d.id; })
-        .attr("d", path)
-        .attr("fill", function(d){ return color(+d.properties.populacao)});
-
+        .attr("d", path);
 
     });
 		</script>

@@ -1,0 +1,22 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/nodejs', '/usr/bin/npm', 'version', 'topojson' ]
+2 info using npm@3.10.9
+3 info using node@v4.6.1
+4 error version No valid package.json found
+5 verbose stack Error: Error: ENOENT: no such file or directory, open '/usr/local/workspace/d3/package.json'
+5 verbose stack     at ReadFileContext.<anonymous> (/usr/lib/node_modules/npm/lib/version.js:111:23)
+5 verbose stack     at ReadFileContext.callback (/usr/lib/node_modules/npm/node_modules/graceful-fs/graceful-fs.js:78:16)
+5 verbose stack     at FSReqWrap.readFileAfterOpen [as oncomplete] (fs.js:303:13)
+6 verbose cwd /usr/local/workspace/d3
+7 error Linux 4.4.0-64-generic
+8 error argv "/usr/bin/nodejs" "/usr/bin/npm" "version" "topojson"
+9 error node v4.6.1
+10 error npm  v3.10.9
+11 error code [ 'Error: ENOENT',
+11 error code   'ENOENT',
+11 error code   index: 0,
+11 error code   input: 'Error: ENOENT: no such file or directory, open \'/usr/local/workspace/d3/package.json\'' ]
+12 error Error: ENOENT: no such file or directory, open '/usr/local/workspace/d3/package.json'
+13 error If you need help, you may report this error at:
+13 error     <https://github.com/npm/npm/issues>
+14 verbose exit [ 1, true ]

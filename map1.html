@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+	<title>D3</title>
+
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto+Slab" rel="stylesheet">
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/main.css" rel="stylesheet">
+	<link href="css/fonts.css" rel="stylesheet">
+	<style>
+    .municipio {
+      stroke: #fff;
+      stroke-width: 0.8px;
+    }
+	</style>
+</head>
+<body>
+
+	<div class="container">
+
+		<a href="index.html" class="sidebar-btn"><span class="icon-return"></span> Voltar</a>
+
+		<div class="header">
+			<div class="row">
+				<div class="col-xs-10">
+					<h2>Choropleth</h2>
+				</div>
+				<div class="col-xs-2 text-right">
+					<a href="https://github.com/jeffersonrpn/d3/blob/master/map.html" target="_blank" class="btn btn-link"><span class="icon-code"></span></a>
+					<a href="https://bl.ocks.org/mbostock/4060606" target="_blank" class="btn btn-link"><span class="icon-link-external"></span></a>
+				</div>
+			</div>
+		</div>
+		<ol class="breadcrumb">
+			<li><a href="map.html">Início</a></li>
+			<li class="active">1</li>
+			<li><a href="map2.html">2</a></li>
+			<li><a href="map3.html">3</a></li>
+			<li><a href="map4.html">4</a></li>
+			<li><a href="map5.html">5</a></li>
+		</ol>
+		<header>
+			<h1>Preparação</h1>
+		</header>
+
+		<h2>a. Encontrando os dados (shapefile)</h2>
+		<p>O Esri Shapefile ou simplesmente <strong>shapefile</strong> é um formato popular de arquivo contendo dados geoespaciais em forma de vetor usado por Sistemas de Informações Geográficas (SIG). Foi desenvolvido e regulamentado pela ESRI como uma especificação aberta para interoperabilidade por dados entre os softwares de Esri e de outros fornecedores.</p>
+		<p>Shapefiles espacial descrevem geometrias: pontos, linhas, e polígonos. Inclusive podem conter outras variáveis</p>
+		<p>Mapas para download <a href="http://mapas.mma.gov.br/i3geo/datadownload.htm">http://mapas.mma.gov.br/i3geo/datadownload.htm</a></p>
+		<p>Shapefiles do Brasil (IBGE) <a href="http://www.codegeo.com.br/2013/04/shapefiles-do-brasil-para-download.html">http://www.codegeo.com.br/2013/04/shapefiles-do-brasil-para-download.html</a></p>
+
+		<br><br>
+		<h2>b. Convertendo os dados</h2>
+
+		<h3>Instalando requisitos</h3>
+		<p>A biblioteca <a href="http://www.gdal.org/">Geospatial Data Abstraction Library</a>, ou GDAL inclui a ferramenta de manipulação de shapefiles OGR (ogr2ogr):</p>
+		<code>$ brew install gdal</code>
+		<br><br>
+		<p>O <a href="https://github.com/topojson/topojson">TopoJSON</a> é um pacote Node.JS para conversão e simplificação de arquivos geoespaciais:</p>
+		<code>$ npm install -g topojson@1</code>
+
+		<br><br>
+		<h3>Shapefile > GeoJSON</h3>
+		<code>ogr2ogr -f GeoJSON [-where "&lt;condições&gt;"] &lt;destino&gt; &lt;origem&gt;</code>
+		<br>
+		<h3>GeoJSON > TopoJSON</h3>
+		<code>topojson -o &lt;origem&gt; --id-property &lt;destino&gt; --properties -- geo_pb.json</code>
+		<br><br>
+		<p>Exemplo: Estraí apenas a Paraíba do mapa</p>
+		<code>ogr2ogr -f GeoJSON -where "uf = 'PB'" geo_pb.json municipios_2010.shp</code><br>
+		<code>topojson -o topo_pb.json --id-property id --properties -- geo_pb.json</code>
+		<br><br>
+		<p>Exemplo: Estraí apenas a Paraíba do mapa</p>
+		<code>ogr2ogr -f GeoJSON geo_br.json municipios_2010.shp</code><br>
+		<code>topojson -o topo_br.json --id-property id --properties -- geo_br.json</code>
+
+		<br><br><br>
+		<div class="section">
+			<h3>Referências</h3>
+			<ul class="list-unstyled">
+				<li><a href="https://bost.ocks.org/mike/map/" target="_blank">Tutorial completo <span class="icon-link-external"></span></a></li>
+			</ul>
+		</div>
+	</div>
+
+	<footer></footer>
+
+
+</body>
+</html>
