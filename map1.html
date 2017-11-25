@@ -69,13 +69,13 @@
 		<code>ogr2ogr -f GeoJSON [-where "&lt;condições&gt;"] &lt;destino&gt; &lt;origem&gt;</code>
 		<br>
 		<h3>GeoJSON > TopoJSON</h3>
-		<code>topojson -o &lt;origem&gt; --id-property &lt;destino&gt; --properties -- geo_pb.json</code>
+		<code>topojson -o &lt;destino&gt; --id-property &lt;destino&gt; --properties -- &lt;origem&gt;</code>
 		<br><br>
-		<p>Exemplo: Estraí apenas a Paraíba do mapa</p>
+		<p>Exemplo: Estrair apenas a Paraíba do mapa</p>
 		<code>ogr2ogr -f GeoJSON -where "uf = 'PB'" geo_pb.json municipios_2010.shp</code><br>
 		<code>topojson -o topo_pb.json --id-property id --properties -- geo_pb.json</code>
 		<br><br>
-		<p>Exemplo: Estraí apenas a Paraíba do mapa</p>
+		<p>Exemplo: Estrair apenas a Paraíba do mapa</p>
 		<code>ogr2ogr -f GeoJSON geo_br.json municipios_2010.shp</code><br>
 		<code>topojson -o topo_br.json --id-property id --properties -- geo_br.json</code>
 
